@@ -1,0 +1,2 @@
+git remote add amvera https://git.amvera.ru/rinkan/t2u-bot
+git push amvera master
