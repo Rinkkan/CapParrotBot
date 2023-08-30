@@ -6,6 +6,7 @@ public class UserForBD {
     private final String FIRST_NAME;
     private int userDayCounter;
     private int loserDayCounter;
+    private int ratDayCounter;
     public UserForBD(int id,String username, String firstName) {
         this.ID = id;
         this.USERNAME = username;
@@ -36,6 +37,14 @@ public class UserForBD {
         this.loserDayCounter = loserDayCounter;
     }
 
+    public int getRatDayCounter() {
+        return ratDayCounter;
+    }
+
+    public void setRatDayCounter(int ratDayCounter) {
+        this.ratDayCounter = ratDayCounter;
+    }
+
 //    @Override
 //    public String toString() {
 //        return "com.UserOfTheDayBot.UserForBD{" +
@@ -44,6 +53,7 @@ public class UserForBD {
 //                ", FIRST_NAME='" + FIRST_NAME + '\'' +
 //                ", userDayCounter=" + userDayCounter +
 //                ", loserDayCounter=" + loserDayCounter +
+//                ", ratDayCounter=" + ratDayCounter +    
 //                '}';
 //    }
 }
