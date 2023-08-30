@@ -35,18 +35,27 @@ public class Bot extends TelegramLongPollingBot {
     private final String TOKEN = "token";
 
     private String[] messagesForUserOfTheDay = {
-            "\uD83C\uDF89 Сегодня красавчик дня - ",
-            "ВНИМАНИЕ \uD83D\uDD25",
-            "Ищем красавчика в этом чате",
+            "\uD83C\uDF89 Сегодня КРАСАВЧИК дня - ",
+            "КРУТИМ БАРАБАН \uD83D\uDD25",
+            "Ищем КРАСАВЧИКА в этом чате",
             "Гадаем на бинарных опционах \uD83D\uDCCA",
             "Анализируем лунный гороскоп \uD83C\uDF16",
             "Лунная призма дай мне силу \uD83D\uDCAB",
             "СЕКТОР ПРИЗ НА БАРАБАНЕ \uD83C\uDFAF"
     };
-    private String[] messagesForLoserOfTheDay = {
-            "\uD83C\uDF89 Сегодня неудачник \uD83C\uDF08 дня - ",
+    private String[] messagesForRatOfTheDay = {
+            "\1F400\1F42D Сегодня КРЫСА дня - ",
             "ВНИМАНИЕ \uD83D\uDD25",
-            "ФЕДЕРАЛЬНЫЙ \uD83D\uDD0D РОЗЫСК НЕУДАНИКА \uD83D\uDEA8",
+            "Ищем главную КРЫСУ в этой помойке",
+            "Обходим все сработавшие мышеловки \uD83D\uDCCA",
+            "Мешаем крысиный яд с сыром \uD83C\uDF16",
+            "Крыса из рататуя сдала поддельника \uD83D\uDCAB",
+            "В ТВОЕЙ НОРЕ УЖЕ ФБР \uD83C\uDFAF"
+    };
+    private String[] messagesForLoserOfTheDay = {
+            "\uD83C\uDF89 Сегодня ПИДОР \uD83C\uDF08 дня - ",
+            "ВНИМАНИЕ \uD83D\uDD25",
+            "ФЕДЕРАЛЬНЫЙ \uD83D\uDD0D РОЗЫСК ПИДОРА \uD83D\uDEA8",
             "4 - спутник запущен \uD83D\uDE80",
             "3 - сводки Интерпола проверены \uD83D\uDE93",
             "2 - твои друзья опрошены \uD83D\uDE45",
@@ -88,6 +97,12 @@ public class Bot extends TelegramLongPollingBot {
             case stat_loser:
                 sendStatisticOfTheGame(chatId,Games.loser_of_the_day);
                 break;
+            case rat:
+                runGame(chatId,Games.rat_of_the_day);
+                break;
+            case stat_rat:
+                sendStatisticOfTheGame(chatId,Games.rat_of_the_day);
+                break;
             default:
                 break;
         }
@@ -106,6 +121,13 @@ public class Bot extends TelegramLongPollingBot {
             case user_of_the_day:
                 if (dbHandler.isTheSameDayRunning(chatId,getToday(), DBColumns.user_of_the_day_run_day)) {
                     sendMsg(chatId,messagesForUserOfTheDay[0] + dbHandler.getWinnerOfTheGame(chatId,Games.user_of_the_day));
+                    return;
+                }
+                messages = messagesForUserOfTheDay;
+                break;
+            case rat_of_the_day:
+                if (dbHandler.isTheSameDayRunning(chatId,getToday(), DBColumns.rat_of_the_day_run_day)) {
+                    sendMsg(chatId,messagesForRatOfTheDay[0] + dbHandler.getWinnerOfTheGame(chatId,Games.rat_of_the_day));
                     return;
                 }
                 messages = messagesForUserOfTheDay;
@@ -156,6 +178,13 @@ public class Bot extends TelegramLongPollingBot {
                 statisticUserOfTheDay = new StringBuilder(message);
                 for (UserForBD user : dbHandler.getListOfPlayers(chatId)) {
                     statisticUserOfTheDay.append(i++ + ")" + user.getNotificationName() +" - " +user.getUserDayCounter()  + " раз(а)\n");
+                }
+                break;
+            case rat_of_the_day:
+                message = "\uD83C\uDF89 Результаты КРЫСЫ Дня\n";
+                statisticUserOfTheDay = new StringBuilder(message);
+                for (UserForBD user : dbHandler.getListOfPlayers(chatId)) {
+                    statisticUserOfTheDay.append(i++ + ")" + user.getNotificationName() +" - " +user.getRatDayCounter()  + " раз(а)\n");
                 }
                 break;
             case loser_of_the_day:
